@@ -1,0 +1,107 @@
+#Sample Inventory management system. Uses console to run.
+
+#creates an list of possible functions
+options = ['help','action','equip','view equipped','inventory','equipment','drop']
+#creates an empty list for equipment
+#
+equipped = []
+#list for non-equippable consumables
+inventory = ['apple','hair brush','fire starter','moon crystal']
+#list for available equipment
+equipment =['shield','sword','bow','staff']
+#list for dropped items
+droppedequipment = []
+droppedinventory = []
+
+
+#universal action input
+def action():
+    prompt = input(str("What will you do?"))
+    if prompt == 'equip':
+        equip()
+    elif prompt == 'equipment':
+        gear()
+    elif prompt == 'view equipped':
+        view_equipped()
+    elif prompt == 'inventory':
+        nonequip()
+    elif prompt == 'help':
+        aid()
+    elif prompt == 'options':
+        print (str(options))
+    elif prompt == 'drop':
+        drop()
+    elif prompt == 'pick up':
+        pickup()
+    else:
+        print ("Please choose a viable option")
+    action()
+
+#equip function
+def equip():
+    what = input(str("What would you like to equip?"))
+    if what in equipment:
+        equipped.insert(0,what)
+        print("You have equipped " + str(equipped[0]))
+    elif what in inventory:
+        print("This cannot be equipped!")
+    else:
+        print("Please choose an actual piece of equipment!")
+
+#player can see equipped stuff
+def view_equipped():
+    print ("You have equipped the following: " + str(equipped))
+
+#help menu
+def aid():
+    print("Welcome traveler!  You can type help at any time to view this tutorial!")
+    print("Here is a list of actions you can perform!")
+    print(str(options))
+    print("You can call upon this list of options at any time by typing options().")
+    print("To perform an action, simply typle 'action_name'().")
+    print("For example, to equip something, you would type equip().")
+    print("Hope this helps!")
+    print("Good luck on The Cold Coast!")
+
+#equippable inventory
+def gear():
+    print("You currently have the following:" + str(equipment))
+
+#consumable inventory
+def nonequip():
+    print("You currently have " + str(inventory))
+
+#drop an item
+def drop():
+    drp = input(str("What would you like to drop?"))
+    if drp in equipment and equipped:
+        equipment.remove(drp)
+        equipped.remove(drp)
+        droppedequipment.insert(0,drp)
+        print("You have dropped " + str(drp)+'!')
+    elif drp in equipment:
+        equipment.remove(drp)
+        droppedequipment.insert(0,drp)
+    elif drp in inventory:
+        inventory.remove(drp)
+        droppedinventory.insert(0,drp)
+        print("You have dropped " + str(drp)+'!')
+    elif drp not in equipment or inventory or equipped:
+        print("You cannot drop what you do not have!")
+
+def pickup():
+    pick = input(str("What do you want to pick up?"))
+    if pick in droppedequipment:
+        droppedequipment.remove(pick)
+        equipment.insert(0,pick)
+        print("You have picked up " + str(pick)+'!')
+    elif pick in droppedinventory:
+        droppedinventory.remove(pick)
+        inventory.insert(0,pick)
+        print("You have picked up " + str(pick)+'!')
+    elif pick not in equipment or droppedinventory or droppedequipment:
+        print("You cannot pick up what you have not dropped!")
+
+#game start
+print("For help, type help.")
+action()
